@@ -1,0 +1,16 @@
+body {
+   font-size: 2vw;
+}
+
+#clock {
+   margin-bottom: 6vh;
+}
+
+#clock:after {
+   content: "*";
+}
+
+.disclaimer {
+   margin: 8vh;
+   font-size: 10px;
+}
