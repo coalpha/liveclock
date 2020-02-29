@@ -2,6 +2,10 @@
    font-size: 3vw;
 }
 
+.form {
+   padding-bottom: 10vh;
+}
+
 .form > * {
    display: inline-block;
 }

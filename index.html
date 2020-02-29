@@ -2,29 +2,27 @@
 <html lang="en">
 <head>
    <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <script src="all.js"></script>
    <script>
-      const getCwd = s => s.slice(0, s.lastIndexOf("/"));
-      const pn = location.pathname;
-      if (pn.startsWith("/index.html")) {
-         location = getCwd(location.href);
+      if (location.pathname.endsWith("/index.html")) {
+         goToRoot();
       }
    </script>
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link rel="stylesheet" href="all.css">
    <link rel="stylesheet" href="index.css">
-   <script src="vendor/dayjs.min.js"></script>
    <title>When do you die?</title>
 </head>
 <body>
+   <link rel="stylesheet" href="all.css">
    <div class="title">Tick tock, you're going to squawk!</div>
-   <div class="enter">Enter your birthday and your sex:</div>
+   <div id="enter">Enter your birthday and your sex:</div>
    <div class="form">
       <select id="month"></select>
       <select id="day"></select>
       <input id="year" type="number" required pattern="\d{4}" min="1900">
       <select id="sex">
-         <option value="1">XX</option>
-         <option value="0">XY</option>
+         <option value="XX">XX</option>
+         <option value="XY">XY</option>
       </select>
       <button id="submit">DONE</button>
    </div>

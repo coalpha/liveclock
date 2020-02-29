@@ -1,38 +1,44 @@
-clock = document.getElementById "clock"
+clock = d-id "clock"
 
-deathday = dayjs localStorage.birthday .add 90 + ~~localStorage.sex, "years" .valueOf!
+# seconds-per
+const s-minute = 60
+const s-hour   = 3600
+const s-day    = 86400
+const s-week   = 604800
+const s-month  = 2592000
+const s-year   = 31556952
 
-u-second = 1000
-u-minute = 60 * u-second
-u-hour   = 60 * u-minute
-u-day    = 24 * u-hour
-u-week   = 7  * u-day
-u-month  = 4.34524 * u-week # you ruined the nice chain
-u-year   = 12 * u-month
+unless birthday.is-good
+   go-to-root!
+
+s-deathday = birthday.value-of! / 1000 # put it in seconds
+
+if ls.sex == "XX"
+   s-deathday += s-year * 91
+else
+   s-deathday += s-year * 90
+
+get-now = -> Date.now! / 1000 .|. 0 # get the time in seconds
+
+quantify = (num, what, postfix = " ") ->
+   "#{num} #{what}#{if num == 1 then "" else "s"}#{postfix}"
 
 set-time-remaining = !->
-   ms = deathday - Date.parse new Date
-   seconds = (ms / u-second) % 60 .|. 0
-   minutes = (ms / u-minute) % 60 .|. 0
-   hours   = (ms / u-hour)   % 24 .|. 0
-   days    = (ms / u-day)    % 7  .|. 0
-   weeks   = (ms / u-week)   % 4.34524  .|. 0
-   months  = (ms / u-month)  % 12 .|. 0
-   years   = (ms / u-year)       .|. 0
-   clock.innerText = "#{years} years #{months} months #{weeks} weeks #{days} days #{hours} hours #{minutes} minutes #{seconds} seconds"
+   sr = s-deathday - get-now! # seconds remaining
+   seconds = sr % s-minute .|. 0
+   minutes = sr % s-hour / s-minute .|. 0
+   hours   = sr % s-day / s-hour .|. 0
+   days    = sr % s-week / s-day .|. 0
+   weeks   = sr % s-month / s-week .|. 0
+   months  = sr % s-year / s-month .|. 0
+   out = quantify sr / s-year .|. 0, "year"
+   out += quantify months, "month"
+   out += quantify weeks, "week"
+   out += quantify days, "day"
+   out += quantify hours, "hour"
+   out += quantify minutes, "minute"
+   out += quantify seconds, "second", ""
+   clock.innerText = out
+
 set-time-remaining!
 setInterval set-time-remaining, 1000
-# function ti(endtime){
-#   var t = Date.parse(endtime) - Date.parse(new Date());
-#   var seconds = Math.floor( (t/1000) % 60 );
-#   var minutes = Math.floor( (t/1000/60) % 60 );
-#   var hours = Math.floor( (t/(1000*60*60)) % 24 );
-#   var days = Math.floor( t/(1000*60*60*24) );
-#   return {
-#     'total': t,
-#     'days': days,
-#     'hours': hours,
-#     'minutes': minutes,
-#     'seconds': seconds
-#   };
-# }

@@ -1,6 +1,4 @@
-d = document
-d-id = d~getElementById
-
+subtitle = d-id "enter"
 month-inp = d-id "month"
 day-inp = d-id "day"
 year-inp = d-id "year"
@@ -24,47 +22,49 @@ month-names = [
 
 sex-inp.children[Math.random! * 2 .|. 0].selected = true
 
-year-inp.max = "" + dayjs!.year!
-year-inp.min = ("" + dayjs!.year! - 122)
+oldest-person = 123
+year-inp.max = new Date!.get-full-year!
+year-inp.min = year-inp.max - oldest-person
 
-html-option = (value, innerText) ->
-   d.createElement "option"
+make-option = (value, text) ->
+   d.create-element "option"
       ..value = value
-      ..innerText = innerText
+      ..inner-text = text
 
 select-option = (html-element, idx) !->
    html-element.children[idx].selected = "selected"
 
 for month, i in month-names
-   html-option i, month |> month-inp.appendChild
+   make-option i, month |> month-inp.append-child
 
 for i from 1 to 31
-   html-option i, i |> day-inp.appendChild
+   make-option i, i |> day-inp.append-child
 
-ls = local-storage
-
-birthday = ls.birthday
-console.log birthday
-if birthday
-   if (birthday = dayjs birthday).isValid!
-      select-option month-inp, birthday.month!
-      select-option day-inp, birthday.day! - 1
-      year-inp.value = birthday.year!
-      select-option sex-inp, ls.sex
-   else
-      console.log "Invalid Date"
-      delete ls.birthday
+if birthday.is-good
+   select-option month-inp, birthday.month!
+   select-option day-inp, birthday.day! - 1
+   year-inp.value = birthday.year!
 else
-   console.log "No Date"
+   delete ls.birthday
 
-input-is-valid = (v = year-inp.value) -> /\d{4}/~test v and v >= year-inp.min
+select-option sex-inp, switch ls.sex
+   case "XX" then 0
+   case "XY" then 1
+   default
+      delete ls.sex
+      Math.random! * 2 .|. 0
 
-button.addEventListener "click" !->
-   if input-is-valid!
-      ls.birthday = new Date year-inp.value, month-inp.value, day-inp.value .toJSON!
-      console.log ls.birthday
-      ls.sex = + sex-inp.value
-      window.location = (get-cwd location.href) + "/clock"
+year-is-valid = (v = year-inp.value) -> /\d{4}/~test v and v >= year-inp.min
+
+submit = !->
+   if year-is-valid!
+      birthday = new CDate year-inp.value, month-inp.value, day-inp.value
+      if birthday.is-good
+         ls.birthday = birthday.to-string!
+         ls.sex = sex-inp.value
+         w.location = (get-cwd location.href) + "/clock"
+      else
+         subtitle.innerText = "#{birthday.error} at #{new Date!.toJSON!}"
    else
       year-inp.value = do
          if /\d{4}.*/.test year-inp.value
@@ -72,3 +72,6 @@ button.addEventListener "click" !->
          else
             year-inp.min
 
+button.add-event-listener "click", submit
+
+d.add-event-listener "keyup", (e) !-> if e.keyCode == 13 then submit!
