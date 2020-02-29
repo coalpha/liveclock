@@ -13,7 +13,6 @@ w.CDate = class CDate
       new CDate year, month - 1, day
 
    (year, month, day) ->
-      # convert the strings into numbers since they need to match
       year  = year  .|. 0
       month = month .|. 0
       day   = day   .|. 0
@@ -31,13 +30,13 @@ w.CDate = class CDate
 
    value-of: ->
       if @is-good
-         @_val.valueOf!
+         @_val.value-of!
       else
          throw new Error @error
 
    to-string: ->
       if @is-good
-         @_val.toJSON!.slice 0, 10
+         @_val.to-j-s-o-n!.slice 0, 10 # aaaaaaaaaaaeeeeeghhhghghehhghh
       else
          @error
 

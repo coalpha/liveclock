@@ -1,6 +1,6 @@
 # liveclock
 
-*A death clock in a dead language*
+*A death clock in a dead language.*
 
 Oh boy, here comes another learning project. This time, I wanted to learn a
 language called LiveScript. It's part of the CoffeeScript family and it really

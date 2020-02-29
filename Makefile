@@ -13,4 +13,4 @@ minify:
 
 build: compile minify
 
-.PHONY:  start serve watch compile minify
+.PHONY: start serve watch compile minify
