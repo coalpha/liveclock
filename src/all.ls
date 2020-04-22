@@ -36,7 +36,7 @@ w.CDate = class CDate
 
    to-string: ->
       if @is-good
-         @_val.to-j-s-o-n!.slice 0, 10 # aaaaaaaaaaaeeeeeghhhghghehhghh
+         @_val.toJSON!.slice 0, 10
       else
          @error
 

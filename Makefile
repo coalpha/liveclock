@@ -1,16 +1,24 @@
 lsc := npx lsc
-lsfiles := $(wildcard *.ls)
-uglify = npx uglifyjs $(1) -c -m -o $(1)
 
-start: serve watch
-	npx http-server & $(lsc) -wc $(lsfiles)
+lsfiles := $(wildcard src/*.ls)
+cssfiles := $(wildcard src/*.css)
+
+jsfiles = $(wildcard dist/*.js)
+
+start:
+	npx http-server & $(lsc) -cwo dist $(lsfiles)
 
 compile:
-	$(lsc) -c $(lsfiles)
+	$(lsc) -co dist $(lsfiles)
 
-minify:
-	$(foreach jsfile,$(wildcard *.js),$(call uglify,$(jsfile));)
+minify-js:
+	$(foreach jsfile,$(jsfiles),npx uglifyjs $(jsfile) -cmo $(jsfile);)
 
-build: compile minify
+minify-css:
+	$(foreach cssfile,$(cssfiles),npx uglifycss $(cssfile) --output dist/$(notdir $(cssfile));)
 
-.PHONY: start serve watch compile minify
+minify: minify-js minify-css
+
+release: compile minify
+
+.PHONY: start compile minify

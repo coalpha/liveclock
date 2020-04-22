@@ -2,9 +2,7 @@
    "devDependencies": {
       "http-server": "^0.12.1",
       "livescript": "^1.6.0",
-      "uglify": "^0.1.5"
-   },
-   "scripts": {
-      "start": "make"
+      "uglify": "^0.1.5",
+      "uglifycss": "0.0.29"
    }
 }

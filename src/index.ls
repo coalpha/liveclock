@@ -64,7 +64,7 @@ submit = !->
          ls.sex = sex-inp.value
          w.location = (get-cwd location.href) + "/clock"
       else
-         subtitle.innerText = "#{birthday.error} at #{new Date!.to-j-s-o-n!}"
+         subtitle.innerText = "#{birthday.error} at #{new Date!.toJSON!}"
    else
       year-inp.value = do
          if /\d{4}.*/.test year-inp.value
